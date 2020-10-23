@@ -1,4 +1,4 @@
-/*	
+/*
  * dotMe Project
  * Copyright 2020 Justin Lange
 
@@ -15,23 +15,19 @@
  * limitations under the License.
  */
 
-
 package main
 
-// imports
 import (
-	"fmt"
-	"log"
-    "net/http"
+	"github.com/gin-gonic/gin"
+	"./controllers"
 )
 
-// handle response
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to dotMe!")
-}
-
-// main function
 func main() {
-    http.HandleFunc("/", handler)
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	router := gin.Default()
+	router.LoadHTMLGlob("views/*")
+	app := router.Group("/")
+	{
+		app.GET("/", controllers.IndexController)
+	}
+	router.Run(":8080")
 }
